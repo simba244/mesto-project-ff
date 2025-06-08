@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+</head>
+<body class="page">
+  <div class="page__content">
+    <header class="header page__section">
+      <img src="<%= require('./images/logo.svg') %>" alt="Логотип проекта место" class="logo header__logo">
+    </header>
+
+    <main class="content">
+      <section class="profile page__section">
+        <div class="profile__image" style="background-image: url('<%= require('./images/avatar.jpg') %>');"></div>
+        <div class="profile__info">
+          <h1 class="profile__title">Жак-Ив Кусто</h1>
+          <button class="profile__edit-button" type="button"></button>
+          <p class="profile__description">Исследователь океана</p>
+        </div>
+        <button class="profile__add-button" type="button"></button>
+      </section>
+
+      <section class="places page__section">
+        <ul class="places__list"></ul>
+      </section>
+    </main>
+
+    <footer class="footer page__section">
+      <p class="footer__copyright">© 2021 Mesto Russia</p>
+    </footer>
+
+    <template id="card-template">
+      <li class="places__item card">
+        <img class="card__image" src="" alt="">
+        <button class="card__delete-button" type="button"></button>
+        <div class="card__description">
+          <h2 class="card__title"></h2>
+          <button class="card__like-button" type="button"></button>
+        </div>
+      </li>
+    </template>
+  </div>
+  
+  <!-- Модалка профиля -->
+  <div class="popup popup_type_edit">
+    <div class="popup__content">
+    <button type="button" class="popup__close"></button>
+    <form class="popup__form" name="editProfile">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input type="text" name="name" class="popup__input" placeholder="Имя" required>
+        <input type="text" name="about" class="popup__input" placeholder="О себе" required>
+        <button type="submit" class="popup__button">Сохранить</button>
+      </form>
+      </div>
+  </div>
+
+  <!-- Модалка карточка -->
+  <div class="popup popup_type_new-card">
+    <div class="popup__content">
+      <button type="button" class="popup__close"></button>
+      <form class="popup__form" name="newCard">
+        <h2 class="popup__title">Новое место</h2>
+        <input type="text" name="place" class="popup__input" placeholder="Название" required>
+        <input type="url" name="link" class="popup__input" placeholder="Ссылка на картинку" required>
+        <button type="submit" class="popup__button">Создать</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модалка изображение -->
+  <div class="popup popup_type_image">
+    <div class="popup__content popup__content_content_image">
+      <button type="button" class="popup__close"></button>
+      <img class="popup__image" src="" alt="">
+      <p class="popup__caption"></p>
+    </div>
+  </div>
+
+  <script type="module" src="./scripts/index.js"></script>
+</body>
+</html>
