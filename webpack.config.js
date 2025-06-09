@@ -11,7 +11,7 @@ module.exports = {
     publicPath: '',
     assetModuleFilename: 'images/[hash][ext][query]'
   },
-  mode: 'development', // Для продакшна поменяй на 'production'
+  mode: 'development', 
   devServer: {
     static: path.resolve(__dirname, './dist'),
     compress: true,
@@ -29,7 +29,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader, // ⬅️ вместо style-loader
+          MiniCssExtractPlugin.loader, 
           {
             loader: 'css-loader',
             options: {
@@ -50,6 +50,6 @@ module.exports = {
     template: './src/index.html'
   }),
   new CleanWebpackPlugin(),
-  new MiniCssExtractPlugin() // подключение плагина для объединения файлов
+  new MiniCssExtractPlugin() 
   ]
 };
