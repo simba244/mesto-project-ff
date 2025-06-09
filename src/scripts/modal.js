@@ -1,21 +1,14 @@
-// modal.js
 export function setupModal() {
-// Получаем элементы модальных окон
 const editModal = document.querySelector('.popup_type_edit');
 const addModal = document.querySelector('.popup_type_new-card');
 const imageModal = document.querySelector('.popup_type_image');
-
-// Элементы для формы редактирования профиля
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 const nameInput = editModal.querySelector('.popup__input[name="name"]');
 const aboutInput = editModal.querySelector('.popup__input[name="about"]');
-
-// Кнопки открытия
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 
-// Управление модальными окнами
 function openModal(modal) {
   modal.classList.add('popup_is-opened');
   document.addEventListener('keydown', handleEscape);

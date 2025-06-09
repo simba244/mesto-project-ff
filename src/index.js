@@ -1,8 +1,7 @@
 import './pages/index.css';
 import logo from './images/logo.svg';
 import { initialCards } from './scripts/cards.js';
-
-// Установка логотипа
+// Логотип
 document.querySelector('.header__logo').src = logo;
 
 const editPopup = document.querySelector('.popup_type_edit');
