@@ -1,14 +1,10 @@
-// Павел, привет, спасибо за ревью, надеюсь получилось исправить в лучшую сторону 🫡: 
-// 1) Убрал лишние комменты 
-// 2) Сделал три колбека в создании карточки 
-// 3) Убрал дублирование кода
-// 4) Поправил размещение по модулям
-
+// Павел,привет.Cпасибо.Исправляюсь...
+// В modal.js код на 1-22 оставил. Экспортнул handleOverlayClick. Код на 24-45 пернес сюда в index.js
 import './pages/index.css';
 import logo from './images/logo.svg';
 import { initialCards } from './scripts/cards.js';
 import { createCard, deleteCard } from './scripts/card.js';
-import { openModal, closeModal, setupModals, openImagePopup } from './scripts/modal.js';
+import { openModal, closeModal, handleOverlayClick } from './scripts/modal.js';
 
 document.querySelector('.header__logo').src = logo;
 
@@ -64,7 +60,28 @@ addForm.addEventListener('submit', (evt) => {
   closeModal(addModal);
 });
 
+
+function setupModals() {
+  document.querySelectorAll('.popup__close').forEach(button => {
+    const modal = button.closest('.popup');
+    button.addEventListener('click', () => closeModal(modal));
+  });
+
+  document.querySelectorAll('.popup').forEach(modal => {
+    modal.addEventListener('click', handleOverlayClick);
+  });
+}
+
+function openImagePopup(link, name) {
+  const imagePopup = document.querySelector('.popup_type_image');
+  const imagePopupImage = imagePopup.querySelector('.popup__image');
+  const imagePopupCaption = imagePopup.querySelector('.popup__caption');
+
+  imagePopupImage.src = link;
+  imagePopupImage.alt = name;
+  imagePopupCaption.textContent = name;
+
+  openModal(imagePopup);
+}
+
 setupModals();
-
-
-

@@ -1,3 +1,4 @@
+//modal.js
 export function openModal(modal) {
   modal.classList.add('popup_is-opened');
   document.addEventListener('keydown', handleEscape);
@@ -15,31 +16,9 @@ function handleEscape(evt) {
   }
 }
 
-function handleOverlayClick(evt) {
+export function handleOverlayClick(evt) {
   if (evt.target === evt.currentTarget) {
     closeModal(evt.currentTarget);
   }
 }
 
-export function setupModals() {
-  document.querySelectorAll('.popup__close').forEach(button => {
-    const modal = button.closest('.popup');
-    button.addEventListener('click', () => closeModal(modal));
-  });
-
-  document.querySelectorAll('.popup').forEach(modal => {
-    modal.addEventListener('click', handleOverlayClick);
-  });
-}
-
-export function openImagePopup(link, name) {
-  const imagePopup = document.querySelector('.popup_type_image');
-  const imagePopupImage = imagePopup.querySelector('.popup__image');
-  const imagePopupCaption = imagePopup.querySelector('.popup__caption');
-
-  imagePopupImage.src = link;
-  imagePopupImage.alt = name;
-  imagePopupCaption.textContent = name;
-
-  openModal(imagePopup);
-}
