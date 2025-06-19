@@ -1,0 +1,23 @@
+/* Popup Error Styles */
+.popup__error {
+  color: red;
+  font-size: 12px;
+  line-height: 100%;
+  margin-top: 5px;
+  display: block;
+}
+
+.popup__input_invalid {
+  border-color: red;
+  margin-bottom: 0px;
+}
+
+.popup__button_disabled {
+  background-color: rgba(0, 0, 0, 0);
+color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.popup__button_disabled:hover {
+  color: rgb(255, 255, 255);
+}
