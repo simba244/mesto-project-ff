@@ -1,119 +1,104 @@
-// Function to display an error message for an input
-function showInputError(formElement, inputElement, errorMessage, config) {
-  const errorElement = inputElement.nextElementSibling; // Assuming error span is the immediate sibling
-  inputElement.classList.add(config.inputErrorClass);
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(config.errorClass);
+// Показывает сообщение об ошибке рядом с полем
+function showInputError(form, input, message, config) {
+  const errorSpan = input.nextElementSibling;
+  input.classList.add(config.inputErrorClass);
+  errorSpan.textContent = message;
+  errorSpan.classList.add(config.errorClass);
 }
 
-// Function to hide an error message for an input
-function hideInputError(formElement, inputElement, config) {
-  const errorElement = inputElement.nextElementSibling; // Assuming error span is the immediate sibling
-  inputElement.classList.remove(config.inputErrorClass);
-  errorElement.classList.remove(config.errorClass);
-  errorElement.textContent = '';
+// Скрывает сообщение об ошибке
+function hideInputError(form, input, config) {
+  const errorSpan = input.nextElementSibling;
+  input.classList.remove(config.inputErrorClass);
+  errorSpan.classList.remove(config.errorClass);
+  errorSpan.textContent = '';
 }
 
-// Updated function to check the validity of a single input element
-function checkInputValidity(formElement, inputElement, config) {
-  const errorElement = inputElement.nextElementSibling;
-  const customRegexErrorMessage = inputElement.dataset.errorMessage || 'Недопустимые символы';
-  const nameRegex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
-  const isUrl = inputElement.type === 'url';
+// Проверяет, соответствует ли значение заданной регулярке (если поле текстовое)
+function isTextFieldValid(input, regex) {
+  const textFields = ['name', 'about', 'place'];
+  return !textFields.includes(input.name) || regex.test(input.value);
+}
 
-  // Проверка на пустое значение
-  if (inputElement.validity.valueMissing) {
-    showInputError(formElement, inputElement, 'Это обязательное поле', config);
+// Проверяет валидность поля и показывает/скрывает ошибку
+function validateInput(form, input, config) {
+  const regex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
+  const customError = input.dataset.errorMessage || 'Недопустимые символы';
+
+  if (input.validity.valueMissing) {
+    showInputError(form, input, 'Это обязательное поле', config);
     return false;
   }
 
-  // Проверка длины (если задана)
-  const minLength = inputElement.minLength;
-  const maxLength = inputElement.maxLength;
+  if (input.minLength > 0 || input.maxLength > 0) {
+    const length = input.value.length;
+    if (length < input.minLength || length > input.maxLength) {
+      showInputError(
+        form,
+        input,
+        `Должно быть от ${input.minLength} до ${input.maxLength} символов`,
+        config
+      );
+      return false;
+    }
+  }
 
-  if ((minLength > 0 || maxLength > 0) &&
-    (inputElement.value.length < minLength || inputElement.value.length > maxLength)) {
-    showInputError(
-      formElement,
-      inputElement,
-      `Должно быть от ${minLength} до ${maxLength} символов`,
-      config
-    );
+  if (!isTextFieldValid(input, regex)) {
+    showInputError(form, input, customError, config);
     return false;
   }
 
-  // Проверка регулярного выражения
-  if ((inputElement.name === 'name' || inputElement.name === 'about' || inputElement.name === 'place') &&
-      !nameRegex.test(inputElement.value)) {
-    showInputError(formElement, inputElement, customRegexErrorMessage, config);
+  if (input.type === 'url' && input.validity.typeMismatch) {
+    showInputError(form, input, 'Введите корректный URL', config);
     return false;
   }
 
-  // Проверка URL, если указано
-  if (isUrl && inputElement.validity.typeMismatch) {
-    showInputError(formElement, inputElement, 'Введите корректный URL', config);
-    return false;
-  }
-
-  // Если поле валидно
-  hideInputError(formElement, inputElement, config);
+  hideInputError(form, input, config);
   return true;
 }
 
-// Function to toggle the state of the submit button
-function toggleButtonState(inputList, buttonElement, config) {
-  const nameRegex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
+// Переключает активность кнопки отправки формы
+function toggleSubmitButton(inputs, button, config) {
+  const regex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
 
-  const hasInvalidInput = inputList.some((inputElement) =>
-    !inputElement.validity.valid ||
-    ((inputElement.name === 'name' || inputElement.name === 'about' || inputElement.name === 'place') &&
-      !nameRegex.test(inputElement.value))
+  const hasInvalid = inputs.some(input =>
+    !input.validity.valid || !isTextFieldValid(input, regex)
   );
 
-  if (hasInvalidInput) {
-    buttonElement.classList.add(config.inactiveButtonClass);
-    buttonElement.disabled = true;
-  } else {
-    buttonElement.classList.remove(config.inactiveButtonClass);
-    buttonElement.disabled = false;
-  }
+  button.disabled = hasInvalid;
+  button.classList.toggle(config.inactiveButtonClass, hasInvalid);
 }
 
-// Sets up event listeners for a single form
-function setEventListeners(formElement, config) {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
+// Устанавливает обработчики событий на поля формы
+function setFormEventListeners(form, config) {
+  const inputs = Array.from(form.querySelectorAll(config.inputSelector));
+  const submitButton = form.querySelector(config.submitButtonSelector);
 
-  // Initial state of the button
-  toggleButtonState(inputList, buttonElement, config);
+  toggleSubmitButton(inputs, submitButton, config);
 
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      checkInputValidity(formElement, inputElement, config);
-      toggleButtonState(inputList, buttonElement, config);
+  inputs.forEach(input => {
+    input.addEventListener('input', () => {
+      validateInput(form, input, config);
+      toggleSubmitButton(inputs, submitButton, config);
     });
   });
 }
 
-// Enables validation for all forms on the page
+// Включает валидацию для всех форм на странице
 export function enableValidation(config) {
-  const formList = Array.from(document.querySelectorAll(config.formSelector));
-  formList.forEach((formElement) => {
-    formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault(); // Prevent default submission
-    });
-    setEventListeners(formElement, config);
+  const forms = Array.from(document.querySelectorAll(config.formSelector));
+
+  forms.forEach(form => {
+    form.addEventListener('submit', evt => evt.preventDefault());
+    setFormEventListeners(form, config);
   });
 }
 
-// Clears validation errors and disables the button for a specific form
-export function clearValidation(formElement, config) {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
+// Сбрасывает валидацию и деактивирует кнопку для конкретной формы
+export function clearValidation(form, config) {
+  const inputs = Array.from(form.querySelectorAll(config.inputSelector));
+  const submitButton = form.querySelector(config.submitButtonSelector);
 
-  inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement, config);
-  });
-
-  toggleButtonState(inputList, buttonElement, config);
+  inputs.forEach(input => hideInputError(form, input, config));
+  toggleSubmitButton(inputs, submitButton, config);
 }
