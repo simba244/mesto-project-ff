@@ -1,4 +1,3 @@
-// Конфигурация API
 const config = {
   baseUrl: 'https://mesto.nomoreparties.co/v1/wff-cohort-41',
   headers: {
@@ -56,7 +55,7 @@ export function addCard(name, link) {
   }).then(handleResponse);
 }
 
-// Удалить карточку
+// Удалить карточку по ID
 export function deleteCard(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
@@ -64,7 +63,7 @@ export function deleteCard(cardId) {
   }).then(handleResponse);
 }
 
-// Поставить лайк карточке
+// Поставить лайк карточке по ID
 export function likeCard(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
@@ -72,7 +71,7 @@ export function likeCard(cardId) {
   }).then(handleResponse);
 }
 
-// Удалить лайк с карточки
+// Удалить лайк с карточки по ID
 export function unlikeCard(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
