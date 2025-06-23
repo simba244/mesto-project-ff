@@ -104,10 +104,8 @@ addButton.addEventListener('click', () => {
 
 addForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-
   const name = placeInput.value;
   const link = linkInput.value;
-
   addCard(name, link)
     .then(cardData => {
       getUserInfo().then(userData => {
