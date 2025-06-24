@@ -97,7 +97,7 @@
         placeholder="Ссылка на картинку"
         required
         pattern="https?://.+"
-        data-error-message="Введите корректный URL, начинающийся с http:// или https://"
+        data-error-message="адрес URL начинаетсяс http:// или https://"
       >
       <span class="popup__error"></span>
       <button type="submit" class="popup__button popup__button_disabled">Сохранить</button>
@@ -119,8 +119,8 @@
         required
         minlength="2"
         maxlength="30"
-        pattern="^[a-zA-Z\s]+$"
-        data-error-message="Разрешены только латинские буквы и пробелы"
+        pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
+        data-error-message="от 2 до 40 символов, латинские, кириллические буквы, знаки дефиса и пробелы"
       >
       <span class="popup__error"></span>
       <input
@@ -130,7 +130,7 @@
         placeholder="Ссылка на картинку"
         required
         pattern="https?://.+"
-        data-error-message="Введите корректный URL, начинающийся с http:// или https://"
+        data-error-message="адрес URL начинаетсяс http:// или https://"
       >
       <span class="popup__error"></span>
       <button type="submit" class="popup__button popup__button_disabled">Создать</button>
