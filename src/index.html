@@ -15,6 +15,7 @@
     <main class="content">
       <section class="profile page__section">
         <div class="profile__image" style="background-image: url('<%= require('./images/avatar.jpg') %>');"></div>
+        <div class="edit-icon"></div>
         <div class="profile__info">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
           <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
@@ -38,10 +39,14 @@
         <button class="card__delete-button" type="button" aria-label="Удалить карточку"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button class="card__like-button" type="button" aria-label="Лайк"></button>
+          <div class="card__like-container">
+            <button class="card__like-button" type="button" aria-label="Лайк"></button>
+            <span class="card__like-count">0</span>
+          </div>
         </div>
       </li>
     </template>
+
   </div>
 
   <!-- Модалка редактирования профиля -->
@@ -70,6 +75,25 @@
           maxlength="200"
         >
         <span class="popup__error"></span>
+        <button type="submit" class="popup__button popup__button_disabled">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модалка редактирования изображения профиля -->
+  <div class="popup popup_type_avatar-image">
+    <div class="popup__content">
+      <button type="button" class="popup__close" aria-label="Закрыть"></button>
+        <form class="popup__form" name="editProfileImage" novalidate>
+          <h2 class="popup__title">Обновить аватар</h2>
+          <input
+            type="url"
+            name="link"
+            class="popup__input"
+            placeholder="Ссылка на картинку"
+            required
+          >
+          <span class="popup__error"></span>
         <button type="submit" class="popup__button popup__button_disabled">Сохранить</button>
       </form>
     </div>
@@ -110,6 +134,17 @@
       <button type="button" class="popup__close" aria-label="Закрыть"></button>
       <img class="popup__image" src="" alt="">
       <p class="popup__caption"></p>
+    </div>
+  </div>
+
+  <!-- Модалка подтверждения удаления -->
+  <div class="popup popup_type_confirm">
+    <div class="popup__content">
+      <button type="button" class="popup__close" aria-label="Закрыть"></button>
+      <form class="popup__form" novalidate>
+        <h2 class="popup__title">Вы уверены?</h2>
+        <button type="submit" class="popup__button popup__button_confirm">Да</button>
+      </form>
     </div>
   </div>
 

@@ -1,4 +1,5 @@
 .profile__image {
+  position: relative;
   width: 120px;
   height: 120px;
   -webkit-border-radius: 50%;
@@ -7,6 +8,43 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+}
+
+
+/* 2. Создаем псевдоэлемент для затемнения. Он будет поверх картинки. */
+.profile__image::before {
+  content: ''; /* Обязательное свойство для псевдоэлементов */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Черный цвет с 50% прозрачностью */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* 3. Создаем псевдоэлемент для иконки карандаша. */
+.profile__image::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 25px; 
+  height: 25px;
+  background-image: url('/src/images/edit-icon.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.profile__image:hover::before,
+.profile__image:hover::after {
+  opacity: 1;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 740px) {

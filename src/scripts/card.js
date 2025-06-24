@@ -1,13 +1,16 @@
 import { likeCard, unlikeCard } from '../api.js';
 
-function handleLike(likeButton, cardData, userId) {
+function handleLike(likeButton, likeCountElement, cardData, userId) {
   const liked = likeButton.classList.contains('card__like-button_is-active');
   const likeAction = liked ? unlikeCard : likeCard;
 
   likeAction(cardData._id)
     .then(updatedCard => {
       likeButton.classList.toggle('card__like-button_is-active');
-      // можно обновить счётчик лайков, если понадобится
+      // Обновляем количество лайков из обновлённого объекта
+      likeCountElement.textContent = updatedCard.likes.length;
+      // Обновляем cardData.likes чтобы синхронизировать состояние
+      cardData.likes = updatedCard.likes;
     })
     .catch(err => {
       console.error('Ошибка при смене лайка:', err);
@@ -17,14 +20,19 @@ function handleLike(likeButton, cardData, userId) {
 export function createCard(cardData, userId, handleDeleteClick, openImagePopupCallback) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+
   const cardImage = cardElement.querySelector('.card__image');
   const likeButton = cardElement.querySelector('.card__like-button');
+  const likeCountElement = cardElement.querySelector('.card__like-count'); // Получаем счетчик лайков
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const titleElement = cardElement.querySelector('.card__title');
 
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
   titleElement.textContent = cardData.name;
+
+  // Устанавливаем количество лайков
+  likeCountElement.textContent = cardData.likes.length;
 
   // Устанавливаем активность лайка
   if (cardData.likes.some(user => user._id === userId)) {
@@ -41,7 +49,7 @@ export function createCard(cardData, userId, handleDeleteClick, openImagePopupCa
   }
 
   likeButton.addEventListener('click', () => {
-    handleLike(likeButton, cardData, userId);
+    handleLike(likeButton, likeCountElement, cardData, userId);
   });
 
   cardImage.addEventListener('click', () => {
