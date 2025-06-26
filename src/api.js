@@ -6,7 +6,7 @@ const config = {
   }
 };
 
-// Обработчик ответа сервера
+// Ответ сервера
 function handleResponse(res) {
   if (res.ok) {
     return res.json();
@@ -14,14 +14,14 @@ function handleResponse(res) {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-// Получить информацию о пользователе
+// Инфо о пользователе
 export function getUserInfo() {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
   }).then(handleResponse);
 }
 
-// Обновить профиль пользователя
+// Обновить профиль 
 export function updateUserProfile(name, about) {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
@@ -30,7 +30,7 @@ export function updateUserProfile(name, about) {
   }).then(handleResponse);
 }
 
-// Обновить аватар пользователя
+// Обновить аватар 
 export function updateAvatar(avatarUrl) {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
@@ -39,7 +39,7 @@ export function updateAvatar(avatarUrl) {
   }).then(handleResponse);
 }
 
-// Получить стартовые карточки
+// Стартовые карточки
 export function getInitialCards() {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers

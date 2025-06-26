@@ -7,9 +7,7 @@ function handleLike(likeButton, likeCountElement, cardData, userId) {
   likeAction(cardData._id)
     .then(updatedCard => {
       likeButton.classList.toggle('card__like-button_is-active');
-      // Обновляем количество лайков из обновлённого объекта
       likeCountElement.textContent = updatedCard.likes.length;
-      // Обновляем cardData.likes чтобы синхронизировать состояние
       cardData.likes = updatedCard.likes;
     })
     .catch(err => {
@@ -31,15 +29,11 @@ export function createCard(cardData, userId, handleDeleteClick, openImagePopupCa
   cardImage.alt = cardData.name;
   titleElement.textContent = cardData.name;
 
-  // Устанавливаем количество лайков
   likeCountElement.textContent = cardData.likes.length;
 
-  // Устанавливаем активность лайка
   if (cardData.likes.some(user => user._id === userId)) {
     likeButton.classList.add('card__like-button_is-active');
   }
-
-  // Если карточка не принадлежит пользователю — удаление недоступно
   if (cardData.owner._id !== userId) {
     deleteButton.remove();
   } else {

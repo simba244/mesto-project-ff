@@ -1,6 +1,5 @@
 // validation.js
 export { enableValidation, clearValidation };
-// Проверка, есть ли невалидные поля
 const hasInvalidInput = (inputList) => {
   return inputList.some(inputElement => !inputElement.validity.valid);
 };
@@ -24,7 +23,6 @@ const showInputError = (formElement, inputElement, errorMessage) => {
 
 const isValid = (formElement, inputElement) => {
   if (!inputElement.validity.valid) {
-    // Используем data-error-message, если оно есть, иначе стандартное
     const customMessage = inputElement.dataset.errorMessage;
     const errorMessage = customMessage ? customMessage : inputElement.validationMessage;
     showInputError(formElement, inputElement, errorMessage);
@@ -63,7 +61,6 @@ function enableValidation() {
   });
 }
 
-// Очистка ошибок в форме — например, для закрытия модалки
 function clearValidation(formElement) {
   const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
   inputList.forEach(inputElement => {
