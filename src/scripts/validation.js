@@ -1,4 +1,3 @@
-// validation.js
 export { enableValidation, clearValidation };
 const hasInvalidInput = (inputList) => {
   return inputList.some(inputElement => !inputElement.validity.valid);
