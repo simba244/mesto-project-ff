@@ -2,7 +2,7 @@ import './pages/index.css';
 import logo from './images/logo.svg';
 import { createCard } from './scripts/card.js';
 import { openModal, closeModal, handleOverlayClick } from './scripts/modal.js';
-import { enableValidation, clearValidation } from './scripts/validation.js';
+// import { enableValidation, clearValidation } from './scripts/validation.js';
 import {
   getUserInfo,
   getInitialCards,
@@ -11,6 +11,21 @@ import {
   deleteCard as apiDeleteCard,
   updateAvatar
 } from './api.js';
+
+
+import { enableValidation, clearValidation } from './scripts/validation.js';
+
+
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+
+enableValidation(validationConfig);
 
 document.querySelector('.header__logo').src = logo;
 
@@ -43,14 +58,14 @@ const imagePopup = document.querySelector('.popup_type_image');
 const imagePopupImage = imagePopup.querySelector('.popup__image');
 const imagePopupCaption = imagePopup.querySelector('.popup__caption');
 
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-};
+// const validationConfig = {
+//   formSelector: '.popup__form',
+//   inputSelector: '.popup__input',
+//   submitButtonSelector: '.popup__button',
+//   inactiveButtonClass: 'popup__button_disabled',
+//   inputErrorClass: 'popup__input_type_error',
+//   errorClass: 'popup__error_visible'
+// };
 
 let idCardForDelete = null;
 let cardElementForDelete = null;
