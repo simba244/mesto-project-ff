@@ -1,6 +1,6 @@
 import { likeCard, unlikeCard } from '../api.js';
 
-function handleLike(likeButton, likeCountElement, cardData, userId) {
+function handleLike(likeButton, likeCountElement, cardData) {
   const liked = likeButton.classList.contains('card__like-button_is-active');
   const likeAction = liked ? unlikeCard : likeCard;
 
@@ -21,7 +21,7 @@ export function createCard(cardData, userId, handleDeleteClick, openImagePopupCa
 
   const cardImage = cardElement.querySelector('.card__image');
   const likeButton = cardElement.querySelector('.card__like-button');
-  const likeCountElement = cardElement.querySelector('.card__like-count'); // Получаем счетчик лайков
+  const likeCountElement = cardElement.querySelector('.card__like-count'); 
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const titleElement = cardElement.querySelector('.card__title');
 
@@ -43,7 +43,7 @@ export function createCard(cardData, userId, handleDeleteClick, openImagePopupCa
   }
 
   likeButton.addEventListener('click', () => {
-    handleLike(likeButton, likeCountElement, cardData, userId);
+    handleLike(likeButton, likeCountElement, cardData);
   });
 
   cardImage.addEventListener('click', () => {

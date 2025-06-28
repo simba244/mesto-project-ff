@@ -50,7 +50,7 @@
   </div>
 
 <!-- Модалка редактирования профиля -->
-<div class="popup popup_type_edit">
+<div class="popup popup_type_edit popup_is-animated">
   <div class="popup__content">
     <button type="button" class="popup__close" aria-label="Закрыть"></button>
     <form class="popup__form" name="editProfile" novalidate>
@@ -63,7 +63,7 @@
         required
         minlength="2"
         maxlength="40"
-        pattern="/^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\-\s]*$/" 
+        pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$" 
         data-error-message="от 2 до 40 символов, латинские, кириллические буквы, знаки дефиса и пробелы"
       >
       <span class="popup__error"></span>
@@ -75,7 +75,7 @@
         required
         minlength="2"
         maxlength="200"
-        pattern="/^[а-яА-Яa-zA-ZЁёәіңғүұқөһӘІҢҒҮҰҚӨҺ\-\s]*$/" 
+        pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$" 
         data-error-message="от 2 до 200 символов, латинские, кириллические буквы, знаки дефиса и пробелы"
       >
       <span class="popup__error"></span>
@@ -85,7 +85,7 @@
 </div>
 
 <!-- Модалка редактирования изображения профиля -->
-<div class="popup popup_type_avatar-image">
+<div class="popup popup_type_avatar-image popup_is-animated">
   <div class="popup__content">
     <button type="button" class="popup__close" aria-label="Закрыть"></button>
     <form class="popup__form" name="editProfileImage" novalidate>
@@ -106,7 +106,7 @@
 </div>
 
 <!-- Модалка добавления карточки -->
-<div class="popup popup_type_new-card">
+<div class="popup popup_type_new-card popup_is-animated">
   <div class="popup__content">
     <button type="button" class="popup__close" aria-label="Закрыть"></button>
     <form class="popup__form" name="newCard" novalidate>
@@ -119,8 +119,8 @@
         required
         minlength="2"
         maxlength="30"
-        pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
-        data-error-message="от 2 до 40 символов, латинские, кириллические буквы, знаки дефиса и пробелы"
+        pattern="^[a-zA-Zа-яА-ЯЁё \-]+$"
+        data-error-message="от 2 до 30 символов, латинские, кириллические буквы, знаки дефиса и пробелы"
       >
       <span class="popup__error"></span>
       <input
@@ -140,7 +140,7 @@
 
 
   <!-- Модалка просмотра изображения -->
-  <div class="popup popup_type_image">
+  <div class="popup popup_type_image popup_is-animated">
     <div class="popup__content popup__content_content_image">
       <button type="button" class="popup__close" aria-label="Закрыть"></button>
       <img class="popup__image" src="" alt="">
@@ -149,7 +149,7 @@
   </div>
 
   <!-- Модалка подтверждения удаления -->
-  <div class="popup popup_type_confirm">
+  <div class="popup popup_type_confirm popup_is-animated">
     <div class="popup__content">
       <button type="button" class="popup__close" aria-label="Закрыть"></button>
       <form class="popup__form" novalidate>

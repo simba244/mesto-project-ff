@@ -14,9 +14,12 @@ const hideInputError = (formElement, inputElement, config) => {
   inputElement.classList.remove(config.inputErrorClass);
 };
 
+
 const isValid = (formElement, inputElement, config) => {
-  if (inputElement.validity.patternMismatch) {
-    inputElement.setCustomValidity(inputElement.dataset.errorMessage || "Неверный формат.");
+  const errorMessage = inputElement.dataset.errorMessage || inputElement.validationMessage;
+
+  if (inputElement.validity.patternMismatch || inputElement.validity.tooShort || inputElement.validity.tooLong) {
+    inputElement.setCustomValidity(errorMessage);
   } else {
     inputElement.setCustomValidity("");
   }
@@ -27,6 +30,7 @@ const isValid = (formElement, inputElement, config) => {
     hideInputError(formElement, inputElement, config);
   }
 };
+
 
 const hasInvalidInput = (inputList) => {
   return inputList.some(inputElement => !inputElement.validity.valid);

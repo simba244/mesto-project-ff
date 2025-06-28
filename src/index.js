@@ -1,8 +1,11 @@
+// Привет,Владислав, спасибо за ревью =)
+// Обновил порядок карточек, валидацию, анимацию, убрал лишние части кода по твоим замечаниям.
+
 import './pages/index.css';
 import logo from './images/logo.svg';
-import { createCard } from './scripts/card.js';
 import { openModal, closeModal, handleOverlayClick } from './scripts/modal.js';
-// import { enableValidation, clearValidation } from './scripts/validation.js';
+import { createCard, deleteCard } from './scripts/card.js';
+import { enableValidation, clearValidation } from './scripts/validation.js';
 import {
   getUserInfo,
   getInitialCards,
@@ -13,9 +16,6 @@ import {
 } from './api.js';
 
 
-import { enableValidation, clearValidation } from './scripts/validation.js';
-
-
 const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -24,8 +24,6 @@ const validationConfig = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
-
-enableValidation(validationConfig);
 
 document.querySelector('.header__logo').src = logo;
 
@@ -58,32 +56,24 @@ const imagePopup = document.querySelector('.popup_type_image');
 const imagePopupImage = imagePopup.querySelector('.popup__image');
 const imagePopupCaption = imagePopup.querySelector('.popup__caption');
 
-// const validationConfig = {
-//   formSelector: '.popup__form',
-//   inputSelector: '.popup__input',
-//   submitButtonSelector: '.popup__button',
-//   inactiveButtonClass: 'popup__button_disabled',
-//   inputErrorClass: 'popup__input_type_error',
-//   errorClass: 'popup__error_visible'
-// };
-
 let idCardForDelete = null;
 let cardElementForDelete = null;
+let currentUserId = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-  Promise.all([getUserInfo(), getInitialCards()])
-    .then(([userData, cards]) => {
-      profileTitle.textContent = userData.name;
-      profileDescription.textContent = userData.about;
-      profileImage.style.backgroundImage = `url(${userData.avatar})`;
 
-      renderCards(cards.reverse(), userData._id);
-    })
-    .catch(err => console.error('Ошибка при загрузке данных:', err));
+Promise.all([getUserInfo(), getInitialCards()])
+  .then(([userData, cards]) => {
+    currentUserId = userData._id;
 
+    profileTitle.textContent = userData.name;
+    profileDescription.textContent = userData.about;
+    profileImage.style.backgroundImage = `url(${userData.avatar})`;
+    renderCards(cards, currentUserId);
+  })
+  .catch(err => console.error('Ошибка при загрузке данных:', err));
   enableValidation(validationConfig);
   setupModals();
-});
+
 
 function renderCards(cards, userId) {
   cards.forEach(cardData => {
@@ -136,7 +126,7 @@ addForm.addEventListener('submit', (evt) => {
   addCard(name, link)
     .then(cardData => {
       getUserInfo().then(userData => {
-        const newCard = createCard(cardData, userData._id, handleDeleteClick, openImagePopup);
+        const newCard = createCard(cardData, currentUserId, handleDeleteClick, openImagePopup);
         cardContainer.prepend(newCard);
         closeModal(addModal);
       });
@@ -197,7 +187,7 @@ if (confirmForm) {
 
     apiDeleteCard(idCardForDelete)
       .then(() => {
-        cardElementForDelete.remove();
+        deleteCard(cardElementForDelete);
         closeModal(confirmModal);
       })
       .catch(err => console.error('Ошибка при удалении карточки:', err));
