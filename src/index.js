@@ -1,6 +1,3 @@
-// Привет,Владислав, спасибо за ревью =)
-// Обновил порядок карточек, валидацию, анимацию, убрал лишние части кода по твоим замечаниям.
-
 import './pages/index.css';
 import logo from './images/logo.svg';
 import { openModal, closeModal, handleOverlayClick } from './scripts/modal.js';
@@ -125,11 +122,9 @@ addForm.addEventListener('submit', (evt) => {
 
   addCard(name, link)
     .then(cardData => {
-      getUserInfo().then(userData => {
-        const newCard = createCard(cardData, currentUserId, handleDeleteClick, openImagePopup);
-        cardContainer.prepend(newCard);
-        closeModal(addModal);
-      });
+      const newCard = createCard(cardData, currentUserId, handleDeleteClick, openImagePopup);
+      cardContainer.prepend(newCard);
+      closeModal(addModal);
     })
     .catch(err => console.error('Ошибка добавления карточки:', err))
     .finally(() => {
